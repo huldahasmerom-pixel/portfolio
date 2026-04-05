@@ -759,7 +759,6 @@ justify-content: center;
         });
     }
     
-    // manual click also updates active state
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -768,7 +767,6 @@ justify-content: center;
             if(targetElem) {
                 e.preventDefault();
                 targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // update active link after click
                 setTimeout(() => {
                     updateActiveLink();
                 }, 100);
@@ -778,7 +776,6 @@ justify-content: center;
     
     window.addEventListener('scroll', () => {
         updateActiveLink();
-        // show/hide back to top button
         const backBtn = document.getElementById('backToTopBtn');
         if (window.scrollY > 400) {
             backBtn.classList.add('show');
@@ -798,12 +795,9 @@ addEventListener('click', () => {
         });
     }
     
-    // initial calls
     window.addEventListener('load', () => {
         updateActiveLink();
-        // ensure progress bar initial state
         if (progressBar) progressBar.style.width = '0%';
-        // small fix: if any image missing, alt text shows but layout fine
     });
     
     console.log('✅ Portfolio ready — Scroll progress bar, active link color change, back to top, medium images, all features combined!');
