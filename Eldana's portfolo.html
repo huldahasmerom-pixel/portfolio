@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Eldana's Portfolio | Creative Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #0f172a;
+            scroll-behavior: smooth;
+        }
+
+        /* ========== SCROLL PROGRESS BAR (new feature) ========== */
+        .scroll-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #e2e8f0;
+            z-index: 1001;
+        }
+        .scroll-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
+            transition: width 0.08s linear;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ========== HEADER & NAVIGATION ========== */
+        header {
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(2px);
+            background: rgba(255,255,255,0.96);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 18px 0;
+        }
+
+        .logo h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #1e293b;
+            transition: all 0.25s ease;
+            padding: 6px 0;
+            position: relative;
+        }
+
+        /* ACTIVE LINK COLOUR CHANGE ON SCROLL (teacher requirement) */
+        .nav-links li a.active {
+            color: #2563eb;
+        }
+
+        .nav-links li a.active::after {
+            width: 100%;
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #2563eb;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        /* hero section */
+        .hero {
+            padding: 70px 0 50px;
+            background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+        }
+
+        .hero-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1.2;
+        }
+
+        .hero-text h3 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 12px 0 18px;
+            background: linear-gradient(to right, #0f2b4d, #1e4a76);
+            background-clip: text;
+            -webkit-background-clip: text;
+color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #475569;
+            max-width: 550px;
+            margin-bottom: 28px;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(37,99,235,0.3);
+        }
+
+        .contact-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
+        }
+
+        .hero-image .avatar-icon {
+            font-size: 10rem;
+            color: #2563eb;
+            background: #e6f0ff;
+            padding: 25px;
+            border-radius: 50%;
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.15);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 55px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title span {
+            background: linear-gradient(120deg, #1e3c72, #2b4f8c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border-bottom: 4px solid #2563eb;
+            padding-bottom: 8px;
+        }
+
+        /* about card with images - MEDIUM SIZE (fixed) */
+        .about-card {
+            background: white;
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+        }
+
+        .about-card p {
+            font-size: 1.12rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin: 30px 0 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 28px;
+            box-shadow: 0 12px 24px -10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s;
+            border: 3px solid white;
+        }
+        .profile-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.25);
+        }
+        @media (max-width: 550px) {
+            .profile-img {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        .tiktok-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #fef2e8;
+            padding: 12px 24px;
+            border-radius: 48px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #000000;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .tiktok-link i {
+            font-size: 1.6rem;
+            color: #000000;
+        }
+        .tiktok-link:hover {
+            background: #e0f2fe;
+            transform: scale(1.02);
+        }
+
+        /* services grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+            border: 1px solid #eef2ff;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.12);
+            border-color: #cbdffc;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+color: #2563eb;
+            margin-bottom: 20px;
+        }
+        .service-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+        }
+        .service-card p {
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        /* skills section */
+        .skills-wrapper {
+            background: white;
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.05);
+        }
+        .skills-text p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+        .read-more-btn {
+            background: none;
+            border: 2px solid #2563eb;
+            padding: 8px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: #2563eb;
+            cursor: pointer;
+            transition: 0.25s;
+            margin: 16px 0 28px;
+            display: inline-block;
+        }
+        .read-more-btn:hover {
+            background: #2563eb;
+            color: white;
+        }
+        .skill-bars {
+            margin-top: 20px;
+        }
+        .skill-item {
+            margin-bottom: 24px;
+        }
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 30px;
+            height: 12px;
+            overflow: hidden;
+        }
+        .progress {
+            background: #2563eb;
+            width: 0%;
+            height: 100%;
+            border-radius: 30px;
+            transition: width 1s ease;
+        }
+
+        /* contact row */
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            background: white;
+            border-radius: 36px;
+            padding: 40px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+        }
+        .contact-form {
+            flex: 1.2;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 28px;
+            font-size: 1rem;
+            transition: 0.2s;
+            background: #fefefe;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+        }
+        .send-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .send-btn:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+        .contact-info {
+            flex: 0.9;
+            background: #f1f5f9;
+            border-radius: 32px;
+            padding: 28px;
+        }
+        .contact-info h4 {
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 22px 0;
+            flex-wrap: wrap;
+        }
+        .contact-detail i {
+            width: 32px;
+            font-size: 1.4rem;
+            color: #2563eb;
+        }
+        .contact-detail a, .contact-detail span {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 500;
+        }
+        .contact-detail a:hover {
+            color: #2563eb;
+        }
+
+        /* BACK TO TOP BUTTON */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2563eb;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+justify-content: center;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 99;
+            border: none;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: #1d4ed8;
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 28px 0;
+            text-align: center;
+        }
+        @media (max-width: 780px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                gap: 1.2rem;
+                justify-content: center;
+            }
+            .hero-text h1 {
+                font-size: 2.4rem;
+            }
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .contact-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS BAR (new scrolling bar thing) -->
+<div class="scroll-progress-container">
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+</div>
+
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <h2>Eldana Asmerom</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#services" class="nav-link">Service</a></li>
+                <li><a href="#skills" class="nav-link">Skill</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h3>Hello, I am</h3>
+                <h1>Eldana Asmerom</h1>
+                <p>I am G11 Web Design & Development student | hymn's writer | want to be SW developer</p>
+                <a href="#contact" class="contact-btn">📬 Get In Touch</a>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-laptop-code avatar-icon"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with medium images fixed -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title"><span>About Me</span></div>
+            <div class="about-card">
+                <div class="image-gallery">
+                    <img src="Eldan.jpg.JPG" alt="Eldana portrait" class="profile-img" onerror="this.src='https://placehold.co/220x220?text=Eldana'">
+                    <img src="elda.jpg.JPG" alt="Eldana creative" class="profile-img" onerror="this.src='https://placehold.co/220x220?text=Creative'">
+                </div>
+                <p>Hi, my name is Eldana Asmerom. I am a Web Design and Development student from grade 11. I have my own TikTok account, which has song related contents for now. In the coming times the account will become famous. I'm passionate about counseling, being an awesome friend, and a good joke teller.</p>
+                <a href="https://www.tiktok.com/@hilewin" target="_blank" class="tiktok-link">
+                    <i class="fab fa-tiktok"></i> Click here to look at my TikTok account
+                </a>
+                <div style="margin-top: 20px;">
+                    <small><i class="fas fa-edit"></i> Edit Profile With: <a href="https://www.tiktok.com/@hilewin" target="_blank" style="color:#2563eb; text-decoration:none; font-weight:500;">TikTok Studio & Creative Tools</a></small>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- Services Section -->
+    <section id="services" style="background: #f8fafc;">
+        <div class="container">
+            <div class="section-title"><span>My Services</span></div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-comments"></i></div>
+                    <h3>Counseling</h3>
+                    <p>I will counsel anyone who wants it for free — supportive, non-judgmental, and kind.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-user-friends"></i></div>
+                    <h3>Awesome Friend</h3>
+                    <p>I will be your friend as much as possible, always reliable and fun.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-laugh-squint"></i></div>
+                    <h3>A Joke</h3>
+                    <p>I will make you happy with humor and positive vibes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-title"><span>My Creative Skills</span></div>
+            <div class="skills-wrapper">
+                <div class="skills-text" id="skillsText">
+                    <p>I am a hymn writer and singer. I am proficient at counseling anyone who has problems & wants to know the solution. My passion is to bring emotional healing through music and conversation.</p>
+                </div>
+                <button class="read-more-btn" id="readMoreBtn">Read More</button>
+                <div class="skill-bars">
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Counseling</span><span>90%</span></div>
+                        <div class="progress-bar"><div class="progress" data-width="90"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Friendship</span><span>100%</span></div>
+                        <div class="progress-bar"><div class="progress" data-width="100"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Joke Telling</span><span>80%</span></div>
+                        <div class="progress-bar"><div class="progress" data-width="80"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Writing Hymns</span><span>70%</span></div>
+                        <div class="progress-bar"><div class="progress" data-width="70"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background: #f1f5f9;">
+        <div class="container">
+            <div class="section-title"><span>Contact Me</span></div>
+            <div class="contact-row">
+                <div class="contact-form">
+                    <h3 style="margin-bottom: 20px;">Send a Message</h3>
+                    <form id="contactForm">
+                        <input type="text" id="name" placeholder="Your name" required>
+                        <input type="email" id="email" placeholder="Your email address" required>
+                        <input type="text" id="subject" placeholder="Your subject" required>
+                        <textarea id="message" rows="4" placeholder="Message" required></textarea>
+                        <button type="submit" class="send-btn">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <div id="formFeedback" style="margin-top: 12px; font-weight: 500;"></div>
+                </div>
+                <div class="contact-info">
+                    <h4><i class="fas fa-headset"></i> Let's Talk</h4>
+<p style="margin-bottom: 20px;">Please contact and support me, just send your subjects and let me hear you!</p>
+                    <div class="contact-detail">
+                        <i class="fas fa-map-marker-alt"></i> <span>📍 Address: Addis Ababa, Ethiopia</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone-alt"></i> 
+                        <a href="tel:+251993643628">📱 +251-993-64-36-28</a>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i> 
+                        <a href="mailto:huldahasmerom@gmail.com">📧 huldahasmerom@gmail.com</a>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fab fa-youtube"></i>
+                        <a href="https://www.youtube.com/watch?v=YjX3qV0g8bQ" target="_blank">YouTube Channel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-content">
+        <p>Copyright © Eldana Asmerom. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- BACK TO TOP BUTTON -->
+<button class="back-to-top" id="backToTopBtn" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+    // ========== 1. SCROLL PROGRESS BAR (the "scrolling bar thing") ==========
+    const progressBar = document.getElementById('scrollProgressBar');
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        if (progressBar) {
+            progressBar.style.width = scrolled + '%';
+        }
+    });
+
+    // ========== 2. SKILL BARS ANIMATION ON SCROLL ==========
+    const progressBars = document.querySelectorAll('.progress');
+    function animateSkills() {
+        progressBars.forEach(bar => {
+            const widthVal = bar.getAttribute('data-width');
+            if (widthVal && bar.style.width !== widthVal + '%') {
+                bar.style.width = widthVal + '%';
+            }
+        });
+    }
+    const skillsSection = document.getElementById('skills');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateSkills();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+    if (skillsSection) observer.observe(skillsSection);
+    window.addEventListener('load', () => {
+        const rect = skillsSection?.getBoundingClientRect();
+        if (rect && rect.top < window.innerHeight - 100) animateSkills();
+    });
+
+    // ========== 3. READ MORE BUTTON TOGGLE ==========
+    const readBtn = document.getElementById('readMoreBtn');
+    const skillsParaDiv = document.getElementById('skillsText');
+    let expandedFlag = false;
+    const originalText = "I am a hymn writer and singer. I am proficient at counseling anyone who has problems & wants to know the solution. My passion is to bring emotional healing through music and conversation.";
+    const extraText = " Additionally, I specialize in active listening, creating safe spaces for sharing, and I'm constantly learning new ways to uplift people through creative writing. I also love composing spiritual hymns that resonate with hope and joy. My goal is to combine technology and empathy to make a real difference.";
+    
+    if (readBtn) {
+        readBtn.addEventListener('click', () => {
+            if (!expandedFlag) {
+                skillsParaDiv.innerHTML = `<p>${originalText}${extraText}</p>`;
+                readBtn.textContent = 'Read Less';
+                expandedFlag = true;
+            } else {
+                skillsParaDiv.innerHTML = `<p>${originalText}</p>`;
+                readBtn.textContent = 'Read More';
+                expandedFlag = false;
+}
+        });
+    }
+
+    // ========== 4. CONTACT FORM SUBMIT ==========
+    const contactForm = document.getElementById('contactForm');
+    const feedbackDiv = document.getElementById('formFeedback');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            if (!name || !email || !subject || !message) {
+                feedbackDiv.innerHTML = '<span style="color:#dc2626;">❌ Please fill all fields before sending.</span>';
+                setTimeout(() => feedbackDiv.innerHTML = '', 3000);
+                return;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                feedbackDiv.innerHTML = '<span style="color:#dc2626;">⚠️ Enter a valid email address.</span>';
+                return;
+            }
+            feedbackDiv.innerHTML = '<span style="color:#16a34a;">✅ Message sent successfully! Thank you, I will reply soon. 🙌</span>';
+            contactForm.reset();
+            setTimeout(() => feedbackDiv.innerHTML = '', 4000);
+        });
+    }
+
+    // ========== 5. HOVER EFFECT ON SERVICE ICONS ==========
+    const serviceIcons = document.querySelectorAll('.service-card');
+    serviceIcons.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const icon = card.querySelector('.service-icon i');
+            if(icon) icon.style.transform = 'scale(1.1)';
+        });
+        card.addEventListener('mouseleave', () => {
+            const icon = card.querySelector('.service-icon i');
+            if(icon) icon.style.transform = 'scale(1)';
+        });
+    });
+
+    // ========== 6. SMOOTH SCROLLING + ACTIVE LINK COLOUR CHANGE ON SCROLL (teacher requirement) ==========
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    function updateActiveLink() {
+        let current = '';
+        const scrollPos = window.scrollY + 150; // offset for better detection
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href').substring(1);
+            if (href === current) {
+                link.classList.add('active');
+            }
+        });
+    }
+    
+    // manual click also updates active state
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if(href === "#" || href === "") return;
+            const targetElem = document.querySelector(href);
+            if(targetElem) {
+                e.preventDefault();
+                targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // update active link after click
+                setTimeout(() => {
+                    updateActiveLink();
+                }, 100);
+            }
+        });
+    });
+    
+    window.addEventListener('scroll', () => {
+        updateActiveLink();
+        // show/hide back to top button
+        const backBtn = document.getElementById('backToTopBtn');
+        if (window.scrollY > 400) {
+            backBtn.classList.add('show');
+        } else {
+            backBtn.classList.remove('show');
+        }
+    });
+    
+    // ========== 7. BACK TO TOP FUNCTIONALITY ==========
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+        backToTopBtn.
+addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    // initial calls
+    window.addEventListener('load', () => {
+        updateActiveLink();
+        // ensure progress bar initial state
+        if (progressBar) progressBar.style.width = '0%';
+        // small fix: if any image missing, alt text shows but layout fine
+    });
+    
+    console.log('✅ Portfolio ready — Scroll progress bar, active link color change, back to top, medium images, all features combined!');
+</script>
+</body>
+</html>
